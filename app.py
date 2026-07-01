@@ -30,7 +30,7 @@ while True:
             continue
         x, y, width, height = cv2.boundingRect( contour )
         rectangle = cv2.rectangle( frame, (x, y), (x + width, y + height), (0, 255, 0), 3 )
-        if rectangle:
+        if rectangle.any():
             send_email()
     
     

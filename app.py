@@ -1,5 +1,6 @@
 import cv2
 import time
+from emailing import send_email
 
 video = cv2.VideoCapture( 0 )
 time.sleep( 1 )
@@ -28,7 +29,9 @@ while True:
         if cv2.contourArea( contour ) < 5000:
             continue
         x, y, width, height = cv2.boundingRect( contour )
-        cv2.rectangle( frame, (x, y), (x + width, y + height), (0, 255, 0), 3 )
+        rectangle = cv2.rectangle( frame, (x, y), (x + width, y + height), (0, 255, 0), 3 )
+        if rectangle:
+            send_email()
     
     
     cv2.imshow( "Webcam video", frame )

@@ -3,6 +3,8 @@ import time
 from emailing import send_email
 from datetime import datetime
 
+email_frequency_seconds = 60
+
 video = cv2.VideoCapture( 0 )
 time.sleep( 1 )
 
@@ -40,7 +42,7 @@ while True:
             detected_time = datetime.now()
         try:
             time_delta = datetime.now() - detected_time # type: ignore
-            if time_delta.total_seconds() >= 60:
+            if time_delta.total_seconds() >= email_frequency_seconds:
                 detected_time = None
         except:
             pass

@@ -1,14 +1,18 @@
 import cv2
 import time
 from emailing import send_email
+from datetime import datetime
 
 video = cv2.VideoCapture( 0 )
 time.sleep( 1 )
 
 first_frame = None
+detected_time = None
 
 while True:
     
+    object_detected = False
+
     check, frame = video.read()
     
     grey_frame = cv2.cvtColor( frame, cv2.COLOR_BGR2GRAY )
@@ -30,8 +34,16 @@ while True:
             continue
         x, y, width, height = cv2.boundingRect( contour )
         rectangle = cv2.rectangle( frame, (x, y), (x + width, y + height), (0, 255, 0), 3 )
-        if rectangle.any():
+        
+        if rectangle.any() == True and detected_time == None:
             send_email()
+            detected_time = datetime.now()
+        try:
+            time_delta = datetime.now() - detected_time # type: ignore
+            if time_delta.total_seconds() >= 60:
+                detected_time = None
+        except:
+            pass
     
     
     cv2.imshow( "Webcam video", frame )

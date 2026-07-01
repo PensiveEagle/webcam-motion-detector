@@ -4,9 +4,36 @@ import time
 video = cv2.VideoCapture( 0 )
 time.sleep( 1 )
 
+first_frame = None
+
 while True:
     
     check, frame = video.read()
+    
+    grey_frame = cv2.cvtColor( frame, cv2.COLOR_BGR2GRAY )
+    grey_frame_blur = cv2.GaussianBlur( grey_frame, (21, 21), 0)
+    
+    if first_frame is None:
+        first_frame = grey_frame_blur
+        
+    delta_frame = cv2.absdiff( first_frame, grey_frame_blur )
+    
+    threshold_frame = cv2.threshold( delta_frame, 60, 255, cv2.THRESH_BINARY )[1]
+    
+    dilate_frame = cv2.dilate( threshold_frame, None, iterations = 2 ) # type: ignore
+    
+    contours, check = cv2.findContours( dilate_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )
+    
+    for contour in contours:
+        if cv2.contourArea( contour ) < 5000:
+            continue
+        x, y, width, height = cv2.boundingRect( contour )
+        start_x = int(x)
+        start_y = int(y)
+        end_x = start_x + int(width)
+        end_y = start_y + int(height)
+        cv2.rectangle( frame, (start_x, start_y), (end_x, end_y), (0, 255, 0), 3 )
+    
     
     cv2.imshow( "Webcam video", frame )
     

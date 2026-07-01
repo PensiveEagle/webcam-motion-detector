@@ -28,11 +28,7 @@ while True:
         if cv2.contourArea( contour ) < 5000:
             continue
         x, y, width, height = cv2.boundingRect( contour )
-        start_x = int(x)
-        start_y = int(y)
-        end_x = start_x + int(width)
-        end_y = start_y + int(height)
-        cv2.rectangle( frame, (start_x, start_y), (end_x, end_y), (0, 255, 0), 3 )
+        cv2.rectangle( frame, (x, y), (x + width, y + height), (0, 255, 0), 3 )
     
     
     cv2.imshow( "Webcam video", frame )

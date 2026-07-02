@@ -2,9 +2,12 @@ import cv2
 import time
 from emailing import send_email
 from datetime import datetime
-import streamlit
+import os
+import shutil
 
 email_frequency_seconds = 10
+
+os.mkdir( "motion_captures" )
 
 video = cv2.VideoCapture( 0 )
 time.sleep( 1 )
@@ -63,3 +66,5 @@ while True:
         break
 
 video.release()
+
+shutil.rmtree( "motion_captures" )

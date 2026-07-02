@@ -2,10 +2,12 @@ import cv2
 import time
 from emailing import send_email
 from datetime import datetime
+import dotenv
 import os
 import shutil
 
-email_frequency_seconds = 10
+dotenv.load_dotenv()
+email_frequency_seconds = int( str( os.getenv( "EMAIL_FREQUENCY" ) ) )
 
 os.mkdir( "motion_captures" )
 

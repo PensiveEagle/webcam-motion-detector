@@ -47,7 +47,7 @@ while True:
         
         if rectangle.any() == True and detected_time == None:
             cv2.imwrite( f"motion_captures/{formatted_filename}", frame )
-            send_email()
+            send_email( attachment_image_filename = f"motion_captures/{formatted_filename}" )
             detected_time = time_now
         try:
             time_delta = time_now - detected_time # type: ignore

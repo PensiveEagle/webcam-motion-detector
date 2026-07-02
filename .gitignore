@@ -1,3 +1,5 @@
 scratchpad/
 __pycache__/
 motion_captures/*
+
+.env

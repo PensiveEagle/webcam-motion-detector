@@ -182,8 +182,3 @@ This is an example of how to list things you need to use the software and how to
 [flask-url]: https://flask.palletsprojects.com/en/stable/
 [jupyter-shield]: https://img.shields.io/badge/jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white
 [jupyter-url]: https://jupyter.org/
-
----
-# References
-
-1. [[Software Development]]

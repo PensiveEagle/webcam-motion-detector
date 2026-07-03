@@ -2,10 +2,13 @@ import cv2
 import time
 from emailing import send_email
 from datetime import datetime
+import dotenv
 import os
 import shutil
+from threading import Thread
 
-email_frequency_seconds = 10
+dotenv.load_dotenv()
+email_frequency_seconds = int( str( os.getenv( "EMAIL_FREQUENCY" ) ) )
 
 os.mkdir( "motion_captures" )
 
@@ -50,7 +53,9 @@ while True:
         
         if rectangle.any() == True and detected_time == None:
             cv2.imwrite( f"motion_captures/{formatted_filename}", frame )
-            send_email( attachment_image_filename = f"motion_captures/{formatted_filename}" )
+            email_thread = Thread( target = send_email, args = (f"motion_captures/{formatted_filename}", ))
+            email_thread.daemon = True
+            email_thread.start()
             detected_time = time_now
         try:
             time_delta = time_now - detected_time # type: ignore

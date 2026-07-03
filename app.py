@@ -55,6 +55,7 @@ while True:
             cv2.imwrite( f"motion_captures/{formatted_filename}", frame )
             email_thread = Thread( target = send_email, args = (f"motion_captures/{formatted_filename}"))
             email_thread.daemon = True
+            email_thread.start()
             detected_time = time_now
         try:
             time_delta = time_now - detected_time # type: ignore
